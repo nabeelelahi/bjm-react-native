@@ -1,0 +1,26 @@
+import { ScrollView } from 'react-native'
+import React from 'react'
+import { BaseContainer } from '../components/shared/BaseContainer'
+import { noNotification } from '../assets'
+import { ThemedView } from '../components/shared/ThemedView'
+import { Colors } from '../constants/Colors'
+import FastImage from 'react-native-fast-image'
+import { HEIGHT } from '../constants/Metrices'
+import { ThemedText } from '../components/shared/ThemedText'
+
+const Notifications = () => {
+  return (
+    <BaseContainer>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <ThemedView darkColor={Colors.dark.tintedBackground} lightColor={Colors.light.tintedBackground} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', height: HEIGHT(80) }}>
+          <FastImage resizeMode='contain' style={{ height: 200, width: 200 }} source={noNotification} />
+          <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text}>
+            No Notifications
+          </ThemedText>
+        </ThemedView>
+      </ScrollView>
+    </BaseContainer>
+  )
+}
+
+export default Notifications
