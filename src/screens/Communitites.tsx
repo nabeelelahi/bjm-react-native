@@ -1,12 +1,12 @@
 import React from "react";
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome";  // ✅ Replaced expo-vector-icons
+import { FlatList, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 import { community1, homeParallax } from "../assets";
 import { ThemedText } from "../components/shared/ThemedText";
 import { Colors } from "../constants/Colors";
 import { ThemedView } from "../components/shared/ThemedView";
 import { useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "../hooks/useColorScheme";
+import CommunityCard from "../components/partial/Community/CommunityCard";
 
 const allCommunities = [
     { id: "1", name: "Spirituality", image: community1 },
@@ -57,24 +57,7 @@ const Communities = () => {
                 My Communities
             </ThemedText>
 
-            {myCommunities.map((community) => (
-                <View key={community.id} style={styles.card}>
-                    <Image source={community.image} style={styles.cardImage} />
-                    <View style={styles.overlay} />
-                    <Text style={styles.cardTitle}>{community.name}</Text>
-
-                    <View style={styles.ratingContainer}>
-                        <FontAwesome name="star" size={14} color="gold" />  {/* ✅ Replaced expo icons */}
-                        <ThemedText style={styles.ratingText}>
-                            {community.rating} ({community.members} members)
-                        </ThemedText>
-                    </View>
-
-                    <TouchableOpacity onPress={() => navigation.navigate("Articles" as never)} style={styles.button}>
-                        <ThemedText style={styles.buttonText}>View Community</ThemedText>
-                    </TouchableOpacity>
-                </View>
-            ))}
+            {myCommunities.map((community) => <CommunityCard community={community} />)}
         </ScrollView>
     );
 };
@@ -107,7 +90,6 @@ const styles = StyleSheet.create({
         fontSize: 12,
     },
     card: {
-        backgroundColor: "#fff",
         borderRadius: 12,
         overflow: "hidden",
         marginBottom: 15,

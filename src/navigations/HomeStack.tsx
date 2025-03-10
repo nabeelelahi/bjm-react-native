@@ -11,6 +11,8 @@ import Articles from '../screens/Article';
 import DocGuide from '../screens/DocGuide';
 import Communities from '../screens/Communitites';
 import Bible from '../screens/Bible';
+import CommunityDetails from '../screens/CommunityDetails';
+import QuestionAnswer from '../screens/QuestionAnswer';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +73,33 @@ export default function HomeStack() {
                     options={{
                         headerTitleAlign: 'center',
                         headerTitle: 'Articles',
+                        headerLeft: () => <BackButton />,
+                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
+                        headerStyle: {
+                            backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
+                            height: 75
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="QuestionAnswer"
+                    component={QuestionAnswer}
+                    options={{
+                        headerTitle: 'Question Answers',
+                        headerTitleAlign: 'center',
+                        headerLeft: () => <BackButton />,
+                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
+                        headerStyle: {
+                            backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
+                            height: 75
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="CommunityDetails"
+                    component={CommunityDetails}
+                    options={{
+                        headerTitleAlign: 'center',
                         headerLeft: () => <BackButton />,
                         headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerStyle: {

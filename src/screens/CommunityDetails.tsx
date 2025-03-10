@@ -1,9 +1,12 @@
-import React from "react";
-import { FlatList, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import { BaseContainer } from "../components/shared/BaseContainer";
 import { ThemedView } from "../components/shared/ThemedView";
 import { Colors } from "../constants/Colors";
-import ArticleCard from "../components/partial/Articles/ArticleCard";
+import Entypo from "react-native-vector-icons/Entypo";
+import { useNavigation } from "@react-navigation/native";
+import { useColorScheme } from "../hooks/useColorScheme";
+import QuestionCard from "../components/partial/Community/QuestionCard";
 
 const articles = [
     {
@@ -37,8 +40,21 @@ const articles = [
     },
 ];
 
-const ArticlesScreen = () => {
-    
+const CommunityDetails = ({ route }: any) => {
+    const navigation = useNavigation();
+    const colorScheme = useColorScheme();
+    useEffect(() => {
+        console.log(route.params.name)
+        navigation.setOptions({
+            headerTitle: route.params.name,
+            headerRight: () => (
+                <TouchableOpacity style={[styles.headerPlusIcon, { backgroundColor: Colors[colorScheme ?? 'light'].primary }]}>
+                    <Entypo name='plus' size={26} color={Colors[colorScheme ?? 'light'].background} />
+                </TouchableOpacity>
+            ),
+        });
+    }, [])
+
     return (
         <BaseContainer>
             <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground} style={styles.container}>
@@ -47,7 +63,7 @@ const ArticlesScreen = () => {
                     style={{ backgroundColor: 'transparent' }}
                     showsVerticalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    renderItem={({ item }) => <ArticleCard item={item} />}
+                    renderItem={({ item }) => <QuestionCard item={item} />}
                     contentContainerStyle={{ paddingBottom: 20 }}
                 />
             </ThemedView>
@@ -75,4 +91,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ArticlesScreen;
+export default CommunityDetails;

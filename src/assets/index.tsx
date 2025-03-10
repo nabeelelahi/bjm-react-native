@@ -31,3 +31,5 @@ export const community1 = require('./images/community-1.png');
 export const passportGif = require('./images/Passport.gif');
 export const achievementGif = require('./images/Achievement.gif');
 export const achievementBanner = require('./images/achievement-banner.jpg');
+export const splashBg = require('./images/splash-bg.png');
+export const splashLogo = require('./images/splash-logo.png');
