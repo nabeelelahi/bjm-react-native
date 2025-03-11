@@ -2,17 +2,16 @@ import { useState } from 'react';
 import { request } from '../repository/request';
 import { ResponseError } from '../@types/Api';
 import { setStorageData } from '../utils/storage';
-import { useToast } from 'react-native-toast-notifications';
+import Toast from 'react-native-toast-message';
 import { useNavigation } from '@react-navigation/native';
 export const useAuth = () => {
     const navigation = useNavigation();
     const [loading, setLoading] = useState<boolean>(false);
-    const toast = useToast();
     const handleFailure = (response: ResponseError) => {
         setLoading(false);
         if (!response) { return; }
         response.message.forEach((message: string) => {
-            toast.show(message, { type: 'error' });
+            Toast.show({ type: 'error', text1: message });
         });
         console.log('error', response);
     };

@@ -44,9 +44,8 @@ const CommunityDetails = ({ route }: any) => {
     const navigation = useNavigation();
     const colorScheme = useColorScheme();
     useEffect(() => {
-        console.log(route.params.name)
         navigation.setOptions({
-            headerTitle: route.params.name,
+            headerTitle: route.params.title,
             headerRight: () => (
                 <TouchableOpacity style={[styles.headerPlusIcon, { backgroundColor: Colors[colorScheme ?? 'light'].primary }]}>
                     <Entypo name='plus' size={26} color={Colors[colorScheme ?? 'light'].background} />

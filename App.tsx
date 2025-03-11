@@ -13,7 +13,8 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import BaseStack from './src/navigations/BaseStack';
 import { navigationRef } from './src/navigations/NavigationRef';
-import { ToastProvider } from 'react-native-toast-notifications';
+import Toast from 'react-native-toast-message';
+
 
 
 function App(): React.JSX.Element {
@@ -21,13 +22,12 @@ function App(): React.JSX.Element {
     Appearance.setColorScheme('light'); // Force Light Mode
   }, []);
   return (
-    <ToastProvider>
-      <SafeAreaView style={{ flex: 1 }}>
-        <NavigationContainer ref={navigationRef}>
-          <BaseStack />
-        </NavigationContainer>
-      </SafeAreaView>
-    </ToastProvider>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Toast />
+      <NavigationContainer ref={navigationRef}>
+        <BaseStack />
+      </NavigationContainer>
+    </SafeAreaView>
   );
 }
 

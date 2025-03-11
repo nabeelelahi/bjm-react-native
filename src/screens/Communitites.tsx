@@ -7,26 +7,30 @@ import { ThemedView } from "../components/shared/ThemedView";
 import { useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "../hooks/useColorScheme";
 import CommunityCard from "../components/partial/Community/CommunityCard";
+import { useRequest } from "../hooks/useRequest";
+import { CommunityDto } from "../@types/Communtiy";
+import Loader from "../components/shared/Loader";
 
-const allCommunities = [
-    { id: "1", name: "Spirituality", image: community1 },
-    { id: "2", name: "Art & Craft", image: community1 },
-    { id: "3", name: "Spirituality", image: community1 },
-    { id: "4", name: "Coming soon", image: community1 },
-];
+// const allCommunities = [
+//     { id: "1", name: "Spirituality", image: community1 },
+//     { id: "2", name: "Art & Craft", image: community1 },
+//     { id: "3", name: "Spirituality", image: community1 },
+//     { id: "4", name: "Coming soon", image: community1 },
+// ];
 
-const myCommunities = [
-    { id: "1", name: "Reiki Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-    { id: "2", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-    { id: "3", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-];
+// const myCommunities = [
+//     { id: "1", name: "Reiki Healing", image: homeParallax, rating: 4.3, members: "10K+" },
+//     { id: "2", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
+//     { id: "3", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
+// ];
 
 const Communities = () => {
     const navigation = useNavigation();
     const colorScheme = useColorScheme();
+    const { data, loading } = useRequest<CommunityDto[]>('community', 'get', { type: 'mount' });
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={[styles.container, { backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground }]}>
-            <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground} style={styles.sectionHeader}>
+            {/* <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground} style={styles.sectionHeader}>
                 <ThemedText type="subtitle" lightColor={Colors.light.icon} darkColor={Colors.dark.icon}>
                     All Communities
                 </ThemedText>
@@ -46,18 +50,18 @@ const Communities = () => {
                     </TouchableOpacity>
                 )}
                 contentContainerStyle={styles.communityList}
-            />
+            /> */}
 
             <ThemedText
                 type="subtitle"
                 lightColor={Colors.light.icon}
                 darkColor={Colors.dark.icon}
-                style={{ marginBottom: 15 }}
+                style={{ marginVertical: 15 }}
             >
-                My Communities
+                All Communities
             </ThemedText>
 
-            {myCommunities.map((community) => <CommunityCard community={community} />)}
+            {loading ? <Loader /> : data && data.map((item: CommunityDto) => <CommunityCard item={item} />)}
         </ScrollView>
     );
 };

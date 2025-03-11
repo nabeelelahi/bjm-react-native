@@ -9,8 +9,10 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { baseShadow } from "../../../assets/styles/shadow";
 import { baseRadius } from "../../../assets/styles/radius";
+import { DocGuideDto } from "../../../@types/DocGuide";
+import { formatedDateString, timeFromDateString } from "../../../utils/date";
 
-export const DocumentCard = ({ item }: any) => {
+export const DocumentCard = ({ item }: { item: DocGuideDto }) => {
     const colorScheme = useColorScheme()
     return (
         <TouchableOpacity
@@ -21,7 +23,7 @@ export const DocumentCard = ({ item }: any) => {
                     lightColor={Colors.light.background}
                     darkColor={Colors.dark.background}
                     type="defaultSemiBold"
-                >Document {item.id}</ThemedText>
+                >{item.sub_title}</ThemedText>
                 <MaterialIcons name="more-horiz" size={24} color="white" />
             </ThemedView>
             <ThemedView
@@ -42,13 +44,13 @@ export const DocumentCard = ({ item }: any) => {
             <View style={styles.cardFooter}>
                 <View style={styles.row}>
                     <FontAwesome name="clock-o" size={12} color="#FF3B30" />
-                    <ThemedText style={styles.timeText}>{item.time}</ThemedText>
-                    <FontAwesome name="comment-o" size={12} color="#777" style={styles.iconSpacing} />
+                    <ThemedText style={styles.timeText}>{timeFromDateString(item.created_at)}</ThemedText>
+                    {/* <FontAwesome name="comment-o" size={12} color="#777" style={styles.iconSpacing} />
                     <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text} style={styles.infoText}>1</ThemedText>
                     <FontAwesome name="eye" size={12} color="#777" style={styles.iconSpacing} />
-                    <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text} style={styles.infoText}>2</ThemedText>
+                    <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text} style={styles.infoText}>2</ThemedText> */}
                 </View>
-                <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text} style={styles.infoText}>{item.date}</ThemedText>
+                <ThemedText darkColor={Colors.dark.text} lightColor={Colors.light.text} style={styles.infoText}>{formatedDateString(item.created_at)}</ThemedText>
             </View>
         </TouchableOpacity>
     )

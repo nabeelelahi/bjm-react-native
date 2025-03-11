@@ -1,4 +1,4 @@
-import { Image } from 'react-native'
+import { FlatList, Image } from 'react-native'
 import React from 'react'
 import ParallaxScrollView from '@/src/components/shared/ParallaxScrollView'
 import { WIDTH } from '@/src/constants/Metrices'
@@ -7,10 +7,15 @@ import { Colors } from '@/src/constants/Colors'
 import PassportCard from '@/src/components/partial/Passport/PassportCard'
 import { BaseContainer } from '../components/shared/BaseContainer'
 import { passportBanner } from '../assets'
+import { useRequest } from '../hooks/useRequest'
+import { PassportDto } from '../@types/Passport'
+import Loader from '../components/shared/Loader'
 
 
 
 const Passports = () => {
+    const { data, loading } = useRequest<PassportDto[]>('passport', 'get', { type: 'mount' });
+    console.log(data)
     return (
         <BaseContainer>
             <ParallaxScrollView
@@ -26,10 +31,19 @@ const Passports = () => {
                     lightColor={Colors.light.tintedBackground}
                     darkColor={Colors.dark.tintedBackground}
                 >
-                    <PassportCard />
-                    <PassportCard />
-                    <PassportCard />
-                    <PassportCard />
+                    {
+                        loading ?
+                            <Loader />
+                            :
+                            <FlatList
+                                data={data}
+                                style={{ backgroundColor: 'transparent' }}
+                                showsVerticalScrollIndicator={false}
+                                keyExtractor={(item) => item._id}
+                                renderItem={({ item }) => <PassportCard item={item} />}
+                                contentContainerStyle={{ paddingBottom: 20 }}
+                            />
+                    }
                 </ThemedView>
             </ParallaxScrollView>
         </BaseContainer>

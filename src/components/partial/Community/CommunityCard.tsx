@@ -1,25 +1,25 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
 import React from 'react'
-import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { ThemedView } from '../../shared/ThemedView'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import { ThemedText } from '../../shared/ThemedText'
 import { useNavigation } from '@react-navigation/native'
+import { CommunityDto } from '../../../@types/Communtiy';
 
-const CommunityCard = ({ community }: any) => {
+const CommunityCard = ({ item }: { item: CommunityDto }) => {
     const navigation = useNavigation();
     return (
-        <ThemedView lightColor={Colors.light.background} darkColor={Colors.dark.background} key={community.id} style={styles.card}>
-            <Image source={community.image} style={styles.cardImage} />
+        <ThemedView lightColor={Colors.light.background} darkColor={Colors.dark.background} key={item._id} style={styles.card}>
+            <Image source={{ uri: item.image_url }} style={styles.cardImage} />
             <View style={styles.overlay} />
-            <Text style={styles.cardTitle}>{community.name}</Text>
+            <Text style={styles.cardTitle}>{item.title}</Text>
             <View style={styles.ratingContainer}>
-                <FontAwesome name="star" size={14} color="gold" />  {/* ✅ Replaced expo icons */}
+                {/* <FontAwesome name="star" size={14} color="gold" />  ✅ Replaced expo icons
                 <ThemedText style={styles.ratingText}>
-                    {community.rating} ({community.members} members)
-                </ThemedText>
+                    {item.rating} ({item.members} members)
+                </ThemedText> */}
             </View>
-            <TouchableOpacity onPress={() => navigation.navigate(...["CommunityDetails", { ...community }] as never)} style={styles.button}>
+            <TouchableOpacity onPress={() => navigation.navigate(...["CommunityDetails", { ...item }] as never)} style={styles.button}>
                 <ThemedText style={styles.buttonText}>View Community</ThemedText>
             </TouchableOpacity>
         </ThemedView>

@@ -1,6 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import {API_URL} from '../constants/Server';
 import {ResponseError} from '../@types/Api';
+import {getStorageData} from '../utils/storage';
 
 interface CustomAxiosRequestConfig extends AxiosRequestConfig {
   withAuth?: boolean;
@@ -138,14 +139,15 @@ export class RequestSingleton {
   }
 
   private addAuthHeader(): void {
-    // const access_token = localStorage.getItem('access-token');
-    // if (access_token) {
-    //   // let access_token = (token);
-    //   this.config.headers = {
-    //     ...this.config.headers,
-    //     Authorization: `Bearer ${access_token}`,
-    //   };
-    // }
+    const access_token: {'access-token': string} | null =
+      getStorageData('access-token');
+    if (access_token?.['access-token']) {
+      // let access_token = (token);
+      this.config.headers = {
+        ...this.config.headers,
+        Authorization: `Bearer ${access_token?.['access-token']}`,
+      };
+    }
   }
 
   // === QUICK CALL UTILITY ===

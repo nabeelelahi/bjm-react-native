@@ -7,15 +7,16 @@ import { Image, TouchableOpacity, StyleSheet } from 'react-native'
 import { WIDTH } from '@/src/constants/Metrices'
 import { useColorScheme } from '@/src/hooks/useColorScheme'
 import { baseShadow } from '../../../assets/styles/shadow'
+import { PassportDto } from '../../../@types/Passport'
 
-const PassportCard = () => {
+const PassportCard = ({ item }: { item: PassportDto }) => {
     const colorScheme = useColorScheme()
     return (
         <TouchableOpacity style={[styles.cardBody, { backgroundColor: Colors[colorScheme ?? 'light'].background }, baseShadow]}>
             <ThemedView style={{ flexDirection: 'row' }} lightColor={Colors.light.background} darkColor={Colors.dark.background}>
                 <Image resizeMode='contain' style={styles.icon} source={passportIcon} />
                 <ThemedView style={{ marginHorizontal: 10 }}>
-                    <ThemedText style={styles.blueText}>Attend First Timer Meeting</ThemedText>
+                    <ThemedText style={styles.blueText}>{item.title}</ThemedText>
                     <ThemedText style={styles.greyText}>Not Started</ThemedText>
                 </ThemedView>
             </ThemedView>
