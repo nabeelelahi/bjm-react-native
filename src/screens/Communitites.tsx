@@ -1,31 +1,14 @@
 import React from "react";
-import { FlatList, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
-import { community1, homeParallax } from "../assets";
+import { StyleSheet, ScrollView } from "react-native";
 import { ThemedText } from "../components/shared/ThemedText";
 import { Colors } from "../constants/Colors";
-import { ThemedView } from "../components/shared/ThemedView";
-import { useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "../hooks/useColorScheme";
 import CommunityCard from "../components/partial/Community/CommunityCard";
 import { useRequest } from "../hooks/useRequest";
 import { CommunityDto } from "../@types/Communtiy";
 import Loader from "../components/shared/Loader";
 
-// const allCommunities = [
-//     { id: "1", name: "Spirituality", image: community1 },
-//     { id: "2", name: "Art & Craft", image: community1 },
-//     { id: "3", name: "Spirituality", image: community1 },
-//     { id: "4", name: "Coming soon", image: community1 },
-// ];
-
-// const myCommunities = [
-//     { id: "1", name: "Reiki Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-//     { id: "2", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-//     { id: "3", name: "Crystal Healing", image: homeParallax, rating: 4.3, members: "10K+" },
-// ];
-
 const Communities = () => {
-    const navigation = useNavigation();
     const colorScheme = useColorScheme();
     const { data, loading } = useRequest<CommunityDto[]>('community', 'get', { type: 'mount' });
     return (

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ThemedText } from '@/src/components/shared/ThemedText'
 import { ThemedView } from '@/src/components/shared/ThemedView'
 import { Colors } from '@/src/constants/Colors'
@@ -8,24 +8,52 @@ import { WIDTH } from '@/src/constants/Metrices'
 import { useColorScheme } from '@/src/hooks/useColorScheme'
 import { baseShadow } from '../../../assets/styles/shadow'
 import { PassportDto } from '../../../@types/Passport'
+import { request } from '../../../repository/request'
+import AntDesign from 'react-native-vector-icons/AntDesign'
 
 const PassportCard = ({ item }: { item: PassportDto }) => {
-    const colorScheme = useColorScheme()
+    const colorScheme = useColorScheme();
+    const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(item);
+    const onPassportPress = () => {
+        setLoading(true);
+        request('passport-marker', data.marked_done ? 'delete' : 'post')
+            .setBody({ passport: data._id })
+            .onSuccess(() => {
+                setLoading(false);
+                setData(p => ({ ...p, marked_done: !p.marked_done }));
+            })
+            .onFailure(() => setLoading(false))
+            .call();
+    };
     return (
-        <TouchableOpacity style={[styles.cardBody, { backgroundColor: Colors[colorScheme ?? 'light'].background }, baseShadow]}>
-            <ThemedView style={{ flexDirection: 'row' }} lightColor={Colors.light.background} darkColor={Colors.dark.background}>
+        <TouchableOpacity
+            onPress={onPassportPress}
+            style={[
+                styles.cardBody,
+                { backgroundColor: Colors[colorScheme ?? 'light'].background, opacity: loading ? 0.5 : 1 },
+                baseShadow
+            ]}>
+            <ThemedView style={{ flexDirection: 'row' }} lightColor={'transparent'} darkColor={'transparent'}>
                 <Image resizeMode='contain' style={styles.icon} source={passportIcon} />
-                <ThemedView style={{ marginHorizontal: 10 }}>
-                    <ThemedText style={styles.blueText}>{item.title}</ThemedText>
-                    <ThemedText style={styles.greyText}>Not Started</ThemedText>
+                <ThemedView lightColor={'transparent'} darkColor={'transparent'} style={{ marginHorizontal: 10 }}>
+                    <ThemedText style={styles.blueText}>{data.title}</ThemedText>
+                    <ThemedText style={styles.greyText}>{data.marked_done ? 'Completed' : 'Not Started'}</ThemedText>
                 </ThemedView>
             </ThemedView>
-            <ThemedView style={styles.checkBox} />
+            <ThemedView style={styles.checkBox} >
+                {
+                    data.marked_done ?
+                        <AntDesign name='check' size={20} />
+                        :
+                        null
+                }
+            </ThemedView>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
-export default PassportCard
+export default PassportCard;
 
 const styles = StyleSheet.create({
     cardBody: {
@@ -57,6 +85,8 @@ const styles = StyleSheet.create({
         height: 24,
         width: 24,
         borderRadius: 5,
-        marginBottom: 5
+        marginBottom: 5,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 })

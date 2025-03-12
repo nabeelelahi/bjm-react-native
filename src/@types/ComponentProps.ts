@@ -2,6 +2,7 @@ export type AuthInputProps = {
   placeholder: string;
   type?: 'email' | 'password' | 'text';
   value?: string;
+  disabled?: boolean
   onChange?: (value: string) => void;
   onChangeText?: (text: string) => void;
   onChangeBlur?: (text: string) => void;

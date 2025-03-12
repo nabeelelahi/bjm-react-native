@@ -15,7 +15,6 @@ import Loader from '../components/shared/Loader'
 
 const Passports = () => {
     const { data, loading } = useRequest<PassportDto[]>('passport', 'get', { type: 'mount' });
-    console.log(data)
     return (
         <BaseContainer>
             <ParallaxScrollView

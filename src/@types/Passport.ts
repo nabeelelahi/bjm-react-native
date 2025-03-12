@@ -4,4 +4,5 @@ export type PassportDto = {
     slug: string
     status: boolean
     title: string
+    marked_done?: boolean
   }

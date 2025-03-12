@@ -9,51 +9,66 @@ import { ThemedView } from '@/src/components/shared/ThemedView'
 import { ThemedText } from '../components/shared/ThemedText'
 import * as Progress from 'react-native-progress';
 import { achievementBanner } from '../assets'
+import { useRequest } from '../hooks/useRequest'
+import Loader from '../components/shared/Loader'
 
 const Achievements = () => {
-    const colorScheme = useColorScheme()
+    const colorScheme = useColorScheme();
+    const { data, loading } = useRequest<{
+        completed: number;
+        percentage: number;
+        total: number
+    }>('passport/achievement', 'get', { type: 'mount' });
+    console.log('data....', data)
     return (
         <BaseContainer>
             <ParallaxScrollView
                 headerImage={
                     <ImageBackground style={styles.banner} source={achievementBanner} >
                         <ThemedText style={styles.title} type='subtitle' darkColor={'#fff'} lightColor={'#fff'}>
-                            8 Left to a New Job
+                            {data.total - data.completed} Left to a New Job
                         </ThemedText>
                     </ImageBackground>
                 }
                 headerBackgroundColor={{ light: Colors.light.tintedBackground, dark: Colors.light.tintedBackground }}
             >
-                <ThemedView
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                    }}
-                    lightColor={Colors.light.tintedBackground}
-                    darkColor={Colors.dark.tintedBackground}
-                >
-                    <ThemedText style={styles.title} type='subtitle' darkColor={'#fff'} lightColor={'#000'}>
-                        You have Completed total 7 Steps out of 15 so far!
-                    </ThemedText>
-                    <ThemedView style={{ marginBottom: 20 }} lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
-                        <Progress.Circle
-                            size={WIDTH(60)}
-                            progress={0.5}
-                            thickness={15}
-                            color={Colors[colorScheme ?? 'light'].primary}
-                            unfilledColor={Colors[colorScheme ?? 'light'].background}
-                            borderColor={Colors[colorScheme ?? 'light'].background}
-                        />
-                    </ThemedView>
-                    <ThemedView style={styles.achievementButton} lightColor={Colors.light.primary} darkColor={Colors.dark.primary}>
-                        <ThemedView lightColor={Colors.light.primary} darkColor={Colors.dark.primary} style={styles.achievementCount}>
-                            <ThemedText style={{ borderRadius: 20 }} lightColor='#fff' darkColor='#fff' type='title'>7</ThemedText>
-                            <Image style={{ height: 24, width: 24 }} source={achievementBadge} />
+                {
+                    loading && data ?
+                        <Loader />
+                        :
+                        <ThemedView
+                            style={{
+                                flex: 1,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            lightColor={Colors.light.tintedBackground}
+                            darkColor={Colors.dark.tintedBackground}
+                        >
+                            <ThemedText style={styles.title} type='subtitle' darkColor={'#fff'} lightColor={'#000'}>
+                                You have Completed total {data?.completed} Steps out of {data.total} so far!
+                            </ThemedText>
+                            <ThemedView style={{ marginBottom: 20 }} lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
+                                <Progress.Circle
+                                    size={WIDTH(60)}
+                                    progress={0.5}
+                                    thickness={15}
+                                    color={Colors[colorScheme ?? 'light'].primary}
+                                    unfilledColor={Colors[colorScheme ?? 'light'].background}
+                                    borderColor={Colors[colorScheme ?? 'light'].background}
+                                />
+                            </ThemedView>
+                            <ThemedView style={styles.achievementButton} lightColor={Colors.light.primary} darkColor={Colors.dark.primary}>
+                                <ThemedView lightColor={Colors.light.primary} darkColor={Colors.dark.primary} style={styles.achievementCount}>
+                                    <ThemedText style={{ borderRadius: 20, paddingTop: 5 }} lightColor='#fff' darkColor='#fff' type='title'>{
+                                        data.completed
+                                    }</ThemedText>
+                                    <Image style={{ height: 24, width: 24, paddingTop: 5 }} source={achievementBadge} />
+                                </ThemedView>
+                                <ThemedText lightColor='#fff' darkColor='#fff'>Total Achievements</ThemedText>
+                            </ThemedView>
                         </ThemedView>
-                        <ThemedText lightColor='#fff' darkColor='#fff'>Total Achievements</ThemedText>
-                    </ThemedView>
-                </ThemedView>
+                }
             </ParallaxScrollView>
         </BaseContainer>
     )

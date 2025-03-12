@@ -6,7 +6,6 @@ import { cross, loginBackground } from '@/src/assets'
 import AuthInput from '../components/form/AuthInput'
 import BaseButton from '../components/shared/BaseButton'
 import { WIDTH } from '../constants/Metrices'
-import { useNavigation } from '@react-navigation/native'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '../hooks/useAuth'
@@ -18,7 +17,6 @@ const validationSchema = Yup.object().shape({
 
 
 const Login = () => {
-    const navigation = useNavigation();
     const { login } = useAuth();
     return (
         <BaseContainer>

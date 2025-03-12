@@ -1,34 +1,125 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text } from "react-native";
 import BaseButton from "@/src/components/shared/BaseButton";
 import AuthInput from "../components/form/AuthInput";
 import { BaseContainer } from "../components/shared/BaseContainer";
 import { ThemedView } from "../components/shared/ThemedView";
 import { Colors } from "../constants/Colors";
 import { ThemedText } from "../components/shared/ThemedText";
+import * as Yup from 'yup';
+import { Formik } from "formik";
+import { getStorageData, setStorageData } from "../utils/storage";
+import { UserDto } from "../@types/User";
+import { useRequest } from "../hooks/useRequest";
+import { useNavigation } from "@react-navigation/native";
+import Loader from "../components/shared/Loader";
+
+const validationSchema = Yup.object().shape({
+    name: Yup.string(),
+    email: Yup.string().email('Invalid email'),
+    address: Yup.string().min(3, 'Address is Too short'),
+    mobile_n0: Yup.string(),
+});
 
 const EditProfile = () => {
-    const [form] = useState({
-        Name: "Robert Wilson",
-        Email: "Robert@gmail.com",
-        Password: "********",
-        Address: "24/11 Robert Road, NY, USA",
-        Mobile: "Access your data",
-    });
+    const [user] = useState(getStorageData('user'))
+    const { execute, loading } = useRequest('user', 'patch', { type: 'delay', routeParams: user._id });
+    const navigation = useNavigation()
+    const onSubmit = (values: Partial<UserDto>) => {
+        execute({
+            body: values as never,
+            cbSuccess: (response) => {
+                setStorageData('user', response.data as object)
+                navigation.goBack()
+            }
+        })
 
+    }
     return (
         <BaseContainer>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground} style={styles.container}>
-                    <View style={styles.formContainer}>
-                        {Object.entries(form).map(([key, value]) => (
-                            <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
-                                <ThemedText style={{ paddingHorizontal: 20 }} lightColor={Colors.light.text} darkColor={Colors.dark.text}>{key}</ThemedText>
-                                <AuthInput placeholder={value} />
-                            </ThemedView>
-                        ))}
-                        <BaseButton title='Save Changes' />
-                    </View>
+                    <Formik
+                        initialValues={{
+                            name: user.name,
+                            address: user.address,
+                            mobile_no: user.mobile_no,
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={onSubmit}
+                    >
+                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                            <View style={styles.formContainer}>
+                                <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
+                                    <ThemedText
+                                        style={{ paddingHorizontal: 20 }}
+                                        lightColor={Colors.light.text}
+                                        darkColor={Colors.dark.text}
+                                    >
+                                        Name
+                                    </ThemedText>
+                                    <AuthInput
+                                        placeholder={''}
+                                        onBlur={handleBlur('name')}
+                                        onChangeText={handleChange('name')}
+                                        value={values.name}
+                                    />
+                                    {touched.name && errors.name && <Text style={{ color: 'red' }}>{errors.name}</Text>}
+                                </ThemedView>
+                                <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
+                                    <ThemedText
+                                        style={{ paddingHorizontal: 20 }}
+                                        lightColor={Colors.light.text}
+                                        darkColor={Colors.dark.text}
+                                    >
+                                        Email
+                                    </ThemedText>
+                                    <AuthInput
+                                        value={user.email}
+                                        disabled={true}
+                                    />
+                                </ThemedView>
+                                <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
+                                    <ThemedText
+                                        style={{ paddingHorizontal: 20 }}
+                                        lightColor={Colors.light.text}
+                                        darkColor={Colors.dark.text}
+                                    >
+                                        Address
+                                    </ThemedText>
+                                    <AuthInput
+                                        placeholder={''}
+                                        onBlur={handleBlur('address')}
+                                        onChangeText={handleChange('address')}
+                                        value={values.address}
+                                    />
+                                    {touched.address && errors.address && <Text style={{ color: 'red' }}>{errors.address}</Text>}
+                                </ThemedView>
+                                <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
+                                    <ThemedText
+                                        style={{ paddingHorizontal: 20 }}
+                                        lightColor={Colors.light.text}
+                                        darkColor={Colors.dark.text}
+                                    >
+                                        Mobile No
+                                    </ThemedText>
+                                    <AuthInput
+                                        placeholder={''}
+                                        onBlur={handleBlur('mobile_no')}
+                                        onChangeText={handleChange('mobile_no')}
+                                        value={values.mobile_no}
+                                    />
+                                    {touched.mobile_no && errors.mobile_no && <Text style={{ color: 'red' }}>{errors.mobile_no}</Text>}
+                                </ThemedView>
+                                {
+                                    loading ?
+                                        <Loader />
+                                        :
+                                        <BaseButton onPress={handleSubmit} title='Save Changes' />
+                                }
+                            </View>
+                        )}
+                    </Formik>
                 </ThemedView>
             </ScrollView>
         </BaseContainer >

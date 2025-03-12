@@ -1,6 +1,5 @@
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { ArticleCardProps } from '@/src/@types';
 import { ThemedView } from '../../shared/ThemedView';
 import { Colors } from '@/src/constants/Colors';
 import { ThemedText } from '../../shared/ThemedText';
@@ -8,12 +7,33 @@ import { baseRadius } from '../../../assets/styles/radius';
 import { baseShadow } from '../../../assets/styles/shadow';
 import { useColorScheme } from '../../../hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
+import { formatTimeAgo } from '../../../utils/date';
+import { QuestionAnswerDto } from '../../../@types/QuestionAnswer';
 
-const QuestionCard = ({ item }: { item: ArticleCardProps }) => {
+const QuestionCard = ({ item, disablePress = false }: { item: QuestionAnswerDto, disablePress?: boolean }) => {
     const colorScheme = useColorScheme()
     const navigation = useNavigation()
+    if (!disablePress)
+        return (
+            <TouchableOpacity onPress={() => navigation.navigate(...["QuestionAnswer", { ...item }] as never)} style={[styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>
+                <ThemedView style={styles.textContainer}>
+                    <ThemedText
+                        darkColor={Colors.dark.icon}
+                        lightColor={Colors.light.icon}
+                        type='defaultSemiBold'
+                        style={styles.title}
+                    >{item.title}</ThemedText>
+                    <ThemedText style={styles.description}>{item.description}</ThemedText>
+                    <View style={styles.bottomSection}>
+                        <ThemedText style={styles.time}>{'Author: ' + item.user.name}</ThemedText>
+                        <ThemedText style={styles.time}>{formatTimeAgo(item.created_at)}</ThemedText>
+                    </View>
+                </ThemedView>
+            </TouchableOpacity>
+        )
+    else
     return (
-        <TouchableOpacity onPress={() => navigation.navigate(...["QuestionAnswer", { ...item }] as never)} style={[styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>
+        <ThemedView style={[styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>
             <ThemedView style={styles.textContainer}>
                 <ThemedText
                     darkColor={Colors.dark.icon}
@@ -21,10 +41,13 @@ const QuestionCard = ({ item }: { item: ArticleCardProps }) => {
                     type='defaultSemiBold'
                     style={styles.title}
                 >{item.title}</ThemedText>
-                <ThemedText style={styles.time}>{item.time}</ThemedText>
                 <ThemedText style={styles.description}>{item.description}</ThemedText>
+                <View style={styles.bottomSection}>
+                    <ThemedText style={styles.time}>{'Author: ' + item.user.name}</ThemedText>
+                    <ThemedText style={styles.time}>{formatTimeAgo(item.created_at)}</ThemedText>
+                </View>
             </ThemedView>
-        </TouchableOpacity>
+        </ThemedView>
     )
 };
 
@@ -44,7 +67,12 @@ const styles = StyleSheet.create({
         paddingRight: 10,
     },
     title: {
-        marginBottom: 5,
+        // marginBottom: 5,
+    },
+    bottomSection: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignContent: 'center'
     },
     time: {
         fontSize: 12,
