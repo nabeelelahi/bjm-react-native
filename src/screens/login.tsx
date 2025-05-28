@@ -44,7 +44,7 @@ const Login = () => {
                                 value={values.password}
                             />
                             {touched.password && errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
-                            <ThemedText style={styles.forgotLink} type='defaultSemiBold'>Forgot Password?</ThemedText>
+                            {/* <ThemedText style={styles.forgotLink} type='defaultSemiBold'>Forgot Password?</ThemedText> */}
                             <BaseButton onPress={handleSubmit} title='Login' />
                             <ThemedText style={styles.bottomText} >This app is only for Registered users</ThemedText>
                         </>

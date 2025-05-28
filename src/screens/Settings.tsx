@@ -8,10 +8,13 @@ import Link from '@/src/components/partial/Settings/Link'
 import { useColorScheme } from '../hooks/useColorScheme'
 import { Colors } from '../constants/Colors'
 import { useNavigation } from '@react-navigation/native'
-import DarkModeOption from '../components/partial/Settings/DarkModeOption'
+// import DarkModeOption from '../components/partial/Settings/DarkModeOption'
 import PushNotificationOption from '../components/partial/Settings/PushNotificationOption'
 import { baseShadow } from '../assets/styles/shadow'
 import { baseRadius } from '../assets/styles/radius'
+import { removeStorageData } from '../utils/storage'
+import { CommonActions } from '@react-navigation/native';
+
 
 const Settings = () => {
   const colorScheme = useColorScheme()
@@ -42,7 +45,18 @@ const Settings = () => {
           <Link onPress={() => navigation.navigate('PrivacyPolicy' as never)} title="Privacy Policy" />
           <Link onPress={() => navigation.navigate('TermsAndConditions' as never)} title="Terms and Conditions" />
           <Link onPress={() => navigation.navigate('Faqs' as never)} title="FAQ's" />
-          <Link onPress={() => { }} title="Logout" />
+          <Link onPress={() => {
+            removeStorageData('user');
+            removeStorageData('access-token');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 0,
+                routes: [
+                  { name: 'Splash' }, // Replace 'Home' with your root/index route
+                ],
+              })
+            );
+          }} title="Logout" />
         </ThemedView>
       </ScrollView>
     </BaseContainer>

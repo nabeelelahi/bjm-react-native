@@ -5,11 +5,12 @@ import { Colors } from '@/src/constants/Colors';
 import { ThemedText } from '../../shared/ThemedText';
 import { ArticleDto } from '../../../@types/Article';
 import { formatTimeAgo } from '../../../utils/date';
-import { getRandomHexColor } from '../../../utils/colors';
+// import { getRandomHexColor } from '../../../utils/colors';
+
 const ArticleCard = ({ item }: { item: ArticleDto }) => (
     <ThemedView radius shadow darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.card}>
         <ThemedView darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.textContainer}>
-            <View style={[styles.categoryBadge, { backgroundColor: getRandomHexColor() }]}>
+            <View style={[styles.categoryBadge, { backgroundColor: 'orange' }]}>
                 <ThemedText style={styles.categoryText}>{item.tag}</ThemedText>
             </View>
             <ThemedText

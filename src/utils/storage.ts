@@ -10,3 +10,7 @@ export const setStorageData = (key: string, value: object) => {
   storage.set(key, JSON.stringify(value));
   return storage.getString(key);
 };
+
+export const removeStorageData = (key: string) => {
+  storage.delete(key);
+};

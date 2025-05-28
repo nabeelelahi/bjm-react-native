@@ -10,10 +10,9 @@ export const useAuth = () => {
     const handleFailure = (response: ResponseError) => {
         setLoading(false);
         if (!response) { return; }
-        response.message.forEach((message: string) => {
+        response.data.message.forEach((message: string) => {
             Toast.show({ type: 'error', text1: message });
         });
-        console.log('error', response);
     };
 
     const login = (values: { email: string; password: string }) => {

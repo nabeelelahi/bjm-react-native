@@ -9,6 +9,7 @@ import { ThemedText } from "../components/shared/ThemedText";
 import * as Yup from 'yup';
 import { Formik } from "formik";
 import { useRequest } from "../hooks/useRequest";
+import Loader from "../components/shared/Loader";
 
 const validationSchema = Yup.object().shape({
     oldPassword: Yup.string().min(6, 'Too short').required('Old Password is required'),
@@ -84,7 +85,12 @@ const ChangePassword = () => {
                                     />
                                     {touched.confirmPassword && errors.confirmPassword && <Text style={{ color: 'red', marginHorizontal: 15 }}>{errors.confirmPassword}</Text>}
                                 </ThemedView>
-                                <BaseButton onPress={handleSubmit} title='Change Password' />
+                                {
+                                    loading ?
+                                        <Loader />
+                                        :
+                                        <BaseButton onPress={handleSubmit} title='Change Password' />
+                                }
                             </View>
                         )}
                     </Formik>

@@ -4,7 +4,7 @@ import { BaseContainer } from "../components/shared/BaseContainer";
 import { ThemedView } from "../components/shared/ThemedView";
 import { Colors } from "../constants/Colors";
 import Entypo from "react-native-vector-icons/Entypo";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useColorScheme } from "../hooks/useColorScheme";
 import QuestionCard from "../components/partial/Community/QuestionCard";
 import { useRequest } from "../hooks/useRequest";
@@ -14,13 +14,18 @@ import Loader from "../components/shared/Loader";
 const CommunityDetails = ({ route }: any) => {
     const navigation = useNavigation();
     const colorScheme = useColorScheme();
-    const { data, loading } = useRequest<QuestionAnswerDto[]>('question-answer', 'get', {
-        type: 'mount',
+    const { data, loading, execute } = useRequest<QuestionAnswerDto[]>('question-answer', 'get', {
+        type: 'delay',
         params: {
             community: route.params._id,
             parent: null,
         },
     });
+    useFocusEffect(
+        React.useCallback(() => {
+            execute();
+        }, [navigation])
+    )
     useEffect(() => {
         navigation.setOptions({
             headerTitle: route.params.title.length > 12 ? route.params.title.substring(0, 12).trim() + '...' : route.params.title,

@@ -3,6 +3,10 @@ import { request } from '../repository/request';
 import { GenericType, UseRequestOptions, UseRequestReturn } from '../@types/Api';
 import { AxiosResponseHeaders } from 'axios';
 import { Pagination } from '../@types/Api';
+import Toast from 'react-native-toast-message';
+import { removeStorageData } from '../utils/storage';
+import { useNavigation } from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 
 /**
  * Custom React Hook for making HTTP requests using HttpService.
@@ -27,6 +31,7 @@ export function useRequest<T>(
         perPage: 10,
         currentPage: 1,
     });
+    const navigation = useNavigation()
 
     const execute = async (requestOptions: Partial<UseRequestOptions<T>> = {}) => {
         setLoading(true);
@@ -66,13 +71,23 @@ export function useRequest<T>(
                     }
                 )
                 .onFailure((err: any) => {
-                    console.log(err, 'err/////////');
+                    console.log('err.....', err);
                     if (apiOptions.cbFailure) { apiOptions.cbFailure(err); }
                     if (err.statusCode === 401) {
-                        console.warn('Unauthorized');
+                        removeStorageData('user');
+                        removeStorageData('access-token');
+                        navigation.dispatch(
+                            CommonActions.reset({
+                                index: 0,
+                                routes: [
+                                    { name: 'Splash' }, // Replace 'Home' with your root/index route
+                                ],
+                            })
+                        );
                     }
                     if (err.statusCode === 400) {
-                        console.warn('Bad Request');
+                        console.warn('Bad Request', err);
+                        Toast.show({ type: 'error', text1: err.message });
                     }
                 })
                 .call();
@@ -84,16 +99,15 @@ export function useRequest<T>(
             setService(request(endpoint, method));
         }
     };
-    // const onPaginationChange = useCallback(
-    //     (e: TablePaginationConfig) => {
-    //         const params = service?.config?.params || {};
-    //         params.page = e.current;
-    //         params.limit = e.pageSize;
-    //         setPagination(e);
-    //         execute({ ...options, params });
-    //     },
-    //     [pagination, execute]
-    // );
+    const onPaginationChange = () => {
+        setPagination(p => ({ ...p, currentPage: p.currentPage + 1 }));
+        // setTimeout(() => execute({
+        //     params: {
+        //         ...service.config.params,
+        //         page: pagination.currentPage + 1,
+        //     }
+        // }), 1000);
+    }
 
     useEffect(() => {
         if (options.type === 'mount' && endpoint && method) {
@@ -114,6 +128,6 @@ export function useRequest<T>(
         execute,
         setData,
         pagination,
-        // onPaginationChange,
+        onPaginationChange,
     };
 }

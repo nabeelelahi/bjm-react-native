@@ -24,3 +24,17 @@ export type ArticleCardProps = {
   thumbnail: string;
   categoryColor: string;
 };
+
+
+export interface FlatListComponentProps<T> {
+  keyExtractor: (item: T, index: number) => string;
+  renderItem: ({ item }: { item: T }) => JSX.Element;
+  refreshing?: boolean;
+  onEndReached?: () => void;
+  isLoading?: boolean;
+  style?: object
+  showsVerticalScrollIndicator?: boolean
+  contentContainerStyle?: object
+  route: string
+  method: 'get' | 'post' | 'patch' | 'delete'
+}
