@@ -3,7 +3,7 @@ import { request } from '../repository/request';
 import { GenericType, UseRequestOptions, UseRequestReturn } from '../@types/Api';
 import { AxiosResponseHeaders } from 'axios';
 import { Pagination } from '../@types/Api';
-import Toast from 'react-native-toast-message';
+import { useToast } from "react-native-toast-notifications";
 import { removeStorageData } from '../utils/storage';
 import { useNavigation } from '@react-navigation/native';
 import { CommonActions } from '@react-navigation/native';
@@ -20,6 +20,7 @@ export function useRequest<T>(
     method: string,
     options: UseRequestOptions<T>
 ): UseRequestReturn<T> {
+    const toast = useToast();
     const [data, setData] = useState<T>([] as T);
     const [loading, setLoading] = useState<boolean>(false);
     const [service, setService] = useState(request(endpoint, method));
@@ -87,7 +88,7 @@ export function useRequest<T>(
                     }
                     if (err.statusCode === 400) {
                         console.warn('Bad Request', err);
-                        Toast.show({ type: 'error', text1: err.message });
+                        toast.show(err.message, { type: 'danger', duration: 4000 });
                     }
                 })
                 .call();

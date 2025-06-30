@@ -9,10 +9,10 @@ import { QuestionAnswerDto } from '../@types/QuestionAnswer';
 import { useRequest } from '../hooks/useRequest';
 import Loader from '../components/shared/Loader';
 import { ThemedText } from '../components/shared/ThemedText';
-import Toast from 'react-native-toast-message';
+import { useToast } from "react-native-toast-notifications";
 
 export default function QuestionForum({ route }: any) {
-
+const toast = useToast();
     const [newAnswer, setNewAnswer] = useState('');
     const { data, loading, setData } = useRequest<QuestionAnswerDto[]>('question-answer', 'get', {
         type: 'mount',
@@ -26,7 +26,10 @@ export default function QuestionForum({ route }: any) {
     });
     const onSubmit = () => {
         if (!newAnswer.length) {
-            return Toast.show({ type: 'error', text1: 'Please input your answer.' });
+            return toast.show("Please input your answer", {
+                type: 'warning',
+                duration: 4000,
+            });
         }
         execute({
             body: {

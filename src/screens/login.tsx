@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseContainer } from '@/src/components/shared/BaseContainer'
 import { ThemedText } from '@/src/components/shared/ThemedText'
-import { Image, ImageBackground, StyleSheet, Text } from 'react-native'
+import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text } from 'react-native'
 import { cross, loginBackground } from '@/src/assets'
 import AuthInput from '../components/form/AuthInput'
 import BaseButton from '../components/shared/BaseButton'
@@ -9,6 +9,7 @@ import { WIDTH } from '../constants/Metrices'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '../hooks/useAuth'
+import Loader from '../components/shared/Loader'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -17,7 +18,7 @@ const validationSchema = Yup.object().shape({
 
 
 const Login = () => {
-    const { login } = useAuth();
+    const { login, loading } = useAuth();
     return (
         <BaseContainer>
             <ImageBackground style={styles.mainView} source={loginBackground}>
@@ -45,7 +46,12 @@ const Login = () => {
                             />
                             {touched.password && errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
                             {/* <ThemedText style={styles.forgotLink} type='defaultSemiBold'>Forgot Password?</ThemedText> */}
-                            <BaseButton onPress={handleSubmit} title='Login' />
+                            {
+                                loading ?
+                                <ActivityIndicator style={{marginTop: 25}} size={'large'} />
+                                :
+                                <BaseButton onPress={handleSubmit} title='Login' />
+                            }
                             <ThemedText style={styles.bottomText} >This app is only for Registered users</ThemedText>
                         </>
                     )}
