@@ -13,6 +13,7 @@ import { QuestionAnswerDto } from '../../../@types/QuestionAnswer';
 const QuestionCard = ({ item, disablePress = false }: { item: QuestionAnswerDto, disablePress?: boolean }) => {
     const colorScheme = useColorScheme()
     const navigation = useNavigation()
+    console.log(item.title, item.created_at)
     if (!disablePress)
         return (
             <TouchableOpacity onPress={() => navigation.navigate(...["QuestionAnswer", { ...item }] as never)} style={[styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }]}>

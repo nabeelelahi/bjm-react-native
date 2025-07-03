@@ -14,11 +14,20 @@ import Bible from '../screens/Bible';
 import CommunityDetails from '../screens/CommunityDetails';
 import QuestionAnswer from '../screens/QuestionAnswer';
 import AskQuestion from '../screens/AskQuestion';
+import { useEffect, useState } from 'react';
+import { getStorageData } from '../utils/storage';
+import { UserDto } from '../@types/User';
+import ArticlesDetailScreen from '../screens/ArticleDetails';
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
     const colorScheme = useColorScheme();
+    const [user, setUser] = useState<UserDto | undefined>();
+
+    useEffect(() => {
+        setUser(getStorageData('user'))
+    }, [])
     return (
         <>
             <Stack.Navigator initialRouteName='HomeScreen'>
@@ -27,7 +36,7 @@ export default function HomeStack() {
                     component={HomeScreen}
                     options={{
                         headerTitleAlign: 'center',
-                        headerTitle: 'Welcome Robert',
+                        headerTitle: `Welcome ${user?.name ?? ''}`,
                         headerTitleStyle: {
                             fontFamily: 'Poppins-Semibold',
                             color: Colors[colorScheme ?? 'light'].tintedText,
@@ -74,6 +83,20 @@ export default function HomeStack() {
                     options={{
                         headerTitleAlign: 'center',
                         headerTitle: 'Articles',
+                        headerLeft: () => <BackButton />,
+                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
+                        headerStyle: {
+                            backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
+                            height: 75
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="ArticleDetails"
+                    component={ArticlesDetailScreen}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerTitle: 'Article',
                         headerLeft: () => <BackButton />,
                         headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerStyle: {

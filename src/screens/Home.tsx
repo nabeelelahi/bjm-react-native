@@ -17,14 +17,18 @@ import Carousel from 'react-native-reanimated-carousel';
 import { WIDTH } from '../constants/Metrices';
 import { homeParallax2, homeParallax3 } from '../assets';
 
-const data = [homeParallax, homeParallax2, homeParallax3]
+const data = [
+  homeParallax, 
+  // homeParallax2, 
+  homeParallax3
+]
 
 const HomeScreen = () => {
   const navigation = useNavigation()
   const colorScheme = useColorScheme()
   return (
     <BaseContainer>
-      <SearchBar />
+      {/* <SearchBar /> */}
       <ParallaxScrollView
         headerBackgroundColor={{ light: Colors.light.tintedBackground, dark: Colors.dark.tintedBackground }}
         headerImage={
@@ -51,14 +55,15 @@ const HomeScreen = () => {
         </ThemedView>
 
         <ThemedView style={styles.bottomCardContainer}>
-          <BottomCard
+          {/* <BottomCard
             onPress={() => navigation.navigate('Bible' as never)}
             title='Bible'
             image={<Image style={{ height: 79, width: 77 }} source={colorScheme === 'light' ? bible : bibleWhite} />}
-          />
+          /> */}
           <BottomCard
             onPress={() => navigation.navigate('Articles' as never)}
             title='Articles'
+            isFull
             image={<Image style={{ height: 71, width: 53 }} source={colorScheme === 'light' ? articles : articlesWhite} />}
           />
         </ThemedView>

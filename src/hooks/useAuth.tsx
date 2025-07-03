@@ -31,6 +31,10 @@ export const useAuth = () => {
                 setStorageData('user', repsonse.data);
                 setStorageData('access-token', { 'access-token': headers['access-token'] });
                 navigation.navigate('Tabs' as never);
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Tabs' as never }],
+                });
             })
             // @ts-expect-error @ts-ignore
             .onFailure(handleFailure)

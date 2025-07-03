@@ -51,7 +51,7 @@ const Achievements = () => {
                             <ThemedView style={{ marginBottom: 20 }} lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
                                 <Progress.Circle
                                     size={WIDTH(60)}
-                                    progress={0.5}
+                                    progress={(data?.percentage) ? (data?.percentage) / 100 : 0}
                                     thickness={15}
                                     color={Colors[colorScheme ?? 'light'].primary}
                                     unfilledColor={Colors[colorScheme ?? 'light'].background}

@@ -10,6 +10,7 @@ import ChangePassword from '../screens/ChangePassword';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import TermsAndConditions from '../screens/TermsAndConditions';
 import About from '../screens/About';
+import WebViewScreen from '../screens/WebView';
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export default function SettingStack() {
                     options={{
                         headerTitleAlign: 'center',
                         headerTitle: 'Settings',
+                        headerLeft: () => <BackButton />,
                         headerTitleStyle: { color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerStyle: {
                             backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
@@ -43,6 +45,13 @@ export default function SettingStack() {
                             backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
                             height: 75
                         }
+                    }}
+                />
+                <Stack.Screen
+                    name="WebView"
+                    component={WebViewScreen}
+                    options={{
+                        headerShown: false
                     }}
                 />
                 <Stack.Screen

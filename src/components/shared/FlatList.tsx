@@ -11,7 +11,8 @@ const FlatListComponent = <T,>({
   // onEndReached,
   style,
   route,
-  method
+  method,
+  noDataComp
 }: FlatListComponentProps<T>) => {
   const [data, setData] = useState<T[]>([]);
   const [loading, setLoading] = useState<{ footer: boolean, header: boolean, content: boolean }>({
@@ -46,16 +47,19 @@ const FlatListComponent = <T,>({
     loading.content ?
       <Loader />
       :
-      <FlatList
-        data={data}
-        style={style}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        refreshControl={<RefreshControl refreshing={loading.header} onRefresh={() => setPagination(p => ({ ...p, page: 1 }))} />}
-        onEndReached={onEndReached}
-        ListEmptyComponent={<Text style={styles.emptyText}>No data available</Text>}
-        ListFooterComponent={loading.footer ? <ActivityIndicator size="large" color="blue" /> : null}
-      />
+      data.length ?
+        <FlatList
+          data={data}
+          style={style}
+          keyExtractor={keyExtractor}
+          renderItem={renderItem}
+          refreshControl={<RefreshControl refreshing={loading.header} onRefresh={() => setPagination(p => ({ ...p, page: 1 }))} />}
+          onEndReached={onEndReached}
+          ListEmptyComponent={<Text style={styles.emptyText}>No data available</Text>}
+          ListFooterComponent={loading.footer ? <ActivityIndicator size="large" color="blue" /> : null}
+        />
+        :
+        (noDataComp ?? null)
   );
 };
 

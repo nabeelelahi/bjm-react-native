@@ -10,6 +10,7 @@ import { baseShadow } from '../../../assets/styles/shadow'
 import { PassportDto } from '../../../@types/Passport'
 import { request } from '../../../repository/request'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import Loader from '../../shared/Loader'
 
 const PassportCard = ({ item }: { item: PassportDto }) => {
     const colorScheme = useColorScheme();
@@ -26,6 +27,7 @@ const PassportCard = ({ item }: { item: PassportDto }) => {
             .onFailure(() => setLoading(false))
             .call();
     };
+    console.log('data.....', data)
     return (
         <TouchableOpacity
             onPress={onPassportPress}
@@ -36,17 +38,20 @@ const PassportCard = ({ item }: { item: PassportDto }) => {
             ]}>
             <ThemedView style={{ flexDirection: 'row' }} lightColor={'transparent'} darkColor={'transparent'}>
                 <Image resizeMode='contain' style={styles.icon} source={passportIcon} />
-                <ThemedView lightColor={'transparent'} darkColor={'transparent'} style={{ marginHorizontal: 10 }}>
+                <ThemedView lightColor={'transparent'} darkColor={'transparent'} style={{ marginHorizontal: 10, width: '80%' }}>
                     <ThemedText style={styles.blueText}>{data.title}</ThemedText>
                     <ThemedText style={styles.greyText}>{data.marked_done ? 'Completed' : 'Not Started'}</ThemedText>
                 </ThemedView>
             </ThemedView>
             <ThemedView style={styles.checkBox} >
                 {
-                    data.marked_done ?
-                        <AntDesign name='check' size={20} />
+                    loading ?
+                        <Loader />
                         :
-                        null
+                        data.marked_done ?
+                            <AntDesign name='check' size={20} />
+                            :
+                            null
                 }
             </ThemedView>
         </TouchableOpacity>
@@ -59,10 +64,10 @@ const styles = StyleSheet.create({
     cardBody: {
         alignSelf: 'center',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        // justifyContent: 'space-between',
         flexDirection: 'row',
         width: WIDTH(90),
-        height: 68,
+        minHeight: 68,
         paddingVertical: 10,
         paddingRight: 20,
         paddingLeft: 10,
@@ -74,7 +79,7 @@ const styles = StyleSheet.create({
     blueText: {
         color: Colors.light.primary,
         marginVertical: 0,
-        fontSize: 16
+        fontSize: 16,
     },
     greyText: {
         marginVertical: 0,

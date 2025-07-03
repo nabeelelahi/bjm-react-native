@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
 import QuestionCard from '../components/partial/Community/QuestionCard';
 import { BaseContainer } from '../components/shared/BaseContainer';
 import { ThemedView } from '../components/shared/ThemedView';
@@ -12,7 +12,7 @@ import { ThemedText } from '../components/shared/ThemedText';
 import { useToast } from "react-native-toast-notifications";
 
 export default function QuestionForum({ route }: any) {
-const toast = useToast();
+    const toast = useToast();
     const [newAnswer, setNewAnswer] = useState('');
     const { data, loading, setData } = useRequest<QuestionAnswerDto[]>('question-answer', 'get', {
         type: 'mount',
@@ -42,40 +42,42 @@ const toast = useToast();
     };
 
     return (
-        <BaseContainer>
-            <ThemedView style={styles.container} darkColor={Colors.dark.tintedBackground} lightColor={Colors.light.tintedBackground}>
+        <KeyboardAvoidingView style={{flex: 1}}>
+            <BaseContainer>
+                <ThemedView style={styles.container} darkColor={Colors.dark.tintedBackground} lightColor={Colors.light.tintedBackground}>
 
-                {/* Question Section */}
-                <QuestionCard disablePress item={route.params} />
+                    {/* Question Section */}
+                    <QuestionCard disablePress item={route.params} />
 
-                {/* Answers Section */}
-                {
-                    loading ?
-                        <Loader />
-                        :
-                        <FlatList
-                            data={data}
-                            keyExtractor={(item) => item._id}
-                            renderItem={({ item }) => (
-                                <AnswerCard item={item} />
-                            )}
+                    {/* Answers Section */}
+                    {
+                        loading ?
+                            <Loader />
+                            :
+                            <FlatList
+                                data={data}
+                                keyExtractor={(item) => item._id}
+                                renderItem={({ item }) => (
+                                    <AnswerCard item={item} />
+                                )}
+                            />
+                    }
+
+                    {/* Input Field */}
+                    <View style={styles.inputContainer}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Write your answer..."
+                            value={newAnswer}
+                            onChangeText={setNewAnswer}
                         />
-                }
-
-                {/* Input Field */}
-                <View style={styles.inputContainer}>
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Write your answer..."
-                        value={newAnswer}
-                        onChangeText={setNewAnswer}
-                    />
-                    <TouchableOpacity disabled={submitLoading} onPress={onSubmit} style={styles.submitButton}>
-                        <ThemedText style={styles.submitButtonText}>{submitLoading ? 'Loading...' : 'Submit'}</ThemedText>
-                    </TouchableOpacity>
-                </View>
-            </ThemedView>
-        </BaseContainer>
+                        <TouchableOpacity disabled={submitLoading} onPress={onSubmit} style={styles.submitButton}>
+                            <ThemedText style={styles.submitButtonText}>{submitLoading ? 'Loading...' : 'Submit'}</ThemedText>
+                        </TouchableOpacity>
+                    </View>
+                </ThemedView>
+            </BaseContainer>
+        </KeyboardAvoidingView>
     );
 }
 

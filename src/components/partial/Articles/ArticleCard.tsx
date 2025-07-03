@@ -1,30 +1,60 @@
-import { View, StyleSheet, Image } from 'react-native'
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { ThemedView } from '../../shared/ThemedView';
 import { Colors } from '@/src/constants/Colors';
 import { ThemedText } from '../../shared/ThemedText';
 import { ArticleDto } from '../../../@types/Article';
 import { formatTimeAgo } from '../../../utils/date';
+import { useColorScheme } from "@/src/hooks/useColorScheme";
+import { baseRadius } from '../../../assets/styles/radius';
+import { baseShadow } from '../../../assets/styles/shadow';
+import { useNavigation } from '@react-navigation/native';
 // import { getRandomHexColor } from '../../../utils/colors';
 
-const ArticleCard = ({ item }: { item: ArticleDto }) => (
-    <ThemedView radius shadow darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.card}>
-        <ThemedView darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.textContainer}>
-            <View style={[styles.categoryBadge, { backgroundColor: 'orange' }]}>
-                <ThemedText style={styles.categoryText}>{item.tag}</ThemedText>
-            </View>
-            <ThemedText
-                darkColor={Colors.dark.icon}
-                lightColor={Colors.light.icon}
-                type="defaultSemiBold"
-                style={styles.title}
-            >{item.title}</ThemedText>
-            <ThemedText style={styles.time}>{formatTimeAgo(item.created_at)}</ThemedText>
-            <ThemedText style={styles.description}>{item.description}</ThemedText>
-        </ThemedView>
-        <Image source={{uri: item.image_url}} style={styles.thumbnail} />
-    </ThemedView>
-);
+const ArticleCard = ({ item, is_active }: { item: ArticleDto, is_active?: boolean }) => {
+    const colorScheme = useColorScheme()
+    const navigation = useNavigation()
+    if (is_active)
+        return (
+            < TouchableOpacity
+                onPress={() => navigation.navigate(...['ArticleDetails', { data: item }] as never)}
+                style={[styles.card, styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }, baseRadius, baseShadow]}
+            >
+                <ThemedView darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.textContainer}>
+                    <View style={[styles.categoryBadge, { backgroundColor: 'orange' }]}>
+                        <ThemedText style={styles.categoryText}>{item.tag}</ThemedText>
+                    </View>
+                    <ThemedText
+                        darkColor={Colors.dark.icon}
+                        lightColor={Colors.light.icon}
+                        type="defaultSemiBold"
+                        style={styles.title}
+                    >{item.title}</ThemedText>
+                    <ThemedText style={styles.time}>{formatTimeAgo(item.created_at)}</ThemedText>
+                    <ThemedText style={styles.description}>{item.description.length > 45 ? `${item.description.substring(0, 44)}...` : item.description}</ThemedText>
+                </ThemedView>
+                <Image source={{ uri: item.image_url }} style={styles.thumbnail} />
+            </TouchableOpacity >
+        )
+    else
+        return (
+            < ThemedView radius shadow darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.card} >
+                <ThemedView darkColor={Colors.dark.background} lightColor={Colors.light.background} style={styles.textContainer}>
+                    <View style={[styles.categoryBadge, { backgroundColor: 'orange' }]}>
+                        <ThemedText style={styles.categoryText}>{item.tag}</ThemedText>
+                    </View>
+                    <ThemedText
+                        darkColor={Colors.dark.icon}
+                        lightColor={Colors.light.icon}
+                        type="defaultSemiBold"
+                        style={styles.title}
+                    >{item.title}</ThemedText>
+                    <ThemedText style={styles.time}>{formatTimeAgo(item.created_at)}</ThemedText>
+                </ThemedView>
+                <Image source={{ uri: item.image_url }} style={styles.thumbnail} />
+            </ThemedView >
+        )
+};
 
 export default ArticleCard
 

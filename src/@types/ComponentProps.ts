@@ -36,5 +36,6 @@ export interface FlatListComponentProps<T> {
   showsVerticalScrollIndicator?: boolean
   contentContainerStyle?: object
   route: string
-  method: 'get' | 'post' | 'patch' | 'delete'
+  method: 'get' | 'post' | 'patch' | 'delete',
+  noDataComp?: React.JSX.Element
 }
