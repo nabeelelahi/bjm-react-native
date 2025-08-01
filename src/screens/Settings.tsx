@@ -16,16 +16,14 @@ import { getStorageData, removeStorageData } from '../utils/storage'
 import { CommonActions } from '@react-navigation/native';
 import { useEffect, useState } from 'react'
 import { UserDto } from '../@types/User'
+import { useUser } from '../context/userContext'
 
 
 const Settings = () => {
   const colorScheme = useColorScheme()
   const navigation = useNavigation()
-  const [user, setUser] = useState<UserDto | undefined>();
+  const [state, dispatch] = useUser();
 
-  useEffect(() => {
-    setUser(getStorageData('user'))
-  }, [])
 
   return (
     <BaseContainer>
@@ -36,7 +34,7 @@ const Settings = () => {
             borderBottomColor: colorScheme === 'dark' ? '#fff' : '#CACACA'
           }}>
             <Image style={{ height: 41, width: 38 }} source={colorScheme === 'light' ? profile : profileWhite} />
-            <ThemedText darkColor={Colors.dark.icon} lightColor={Colors.light.icon} style={styles.headerText}>{user?.name ?? user?.email}</ThemedText>
+            <ThemedText darkColor={Colors.dark.icon} lightColor={Colors.light.icon} style={styles.headerText}>{state?.name ?? state?.email}</ThemedText>
           </ThemedView>
           <ThemedText style={styles.subTitle}>Account Settings</ThemedText>
           <Link onPress={() => navigation.navigate('EditProfile' as never)} title="Edit Profile" />

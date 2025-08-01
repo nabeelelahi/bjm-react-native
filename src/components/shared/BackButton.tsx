@@ -8,7 +8,10 @@ const BackButton = () => {
   const navigation = useNavigation()
   const colorScheme = useColorScheme()
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginHorizontal: 16 }}>
+    <TouchableOpacity onPress={() => navigation.goBack()} style={{ 
+      // marginHorizontal: 16, 
+      padding: 16
+       }}>
       <Image style={{ height: 16, width: 16 }} source={colorScheme === 'light' ? backIcon : backIconWhite} />
     </TouchableOpacity>
   )

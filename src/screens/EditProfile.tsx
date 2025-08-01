@@ -13,6 +13,7 @@ import { UserDto } from "../@types/User";
 import { useRequest } from "../hooks/useRequest";
 import { useNavigation } from "@react-navigation/native";
 import Loader from "../components/shared/Loader";
+import { updateUser, useUser } from "../context/userContext";
 
 const validationSchema = Yup.object().shape({
     name: Yup.string(),
@@ -22,14 +23,16 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditProfile = () => {
-    const [user] = useState(getStorageData('user'))
-    const { execute, loading } = useRequest('user', 'patch', { type: 'delay', routeParams: user._id });
+    const [state, dispatch] = useUser();
+    const { execute, loading } = useRequest('user', 'patch', { type: 'delay', routeParams: state?._id });
     const navigation = useNavigation()
     const onSubmit = (values: Partial<UserDto>) => {
         execute({
             body: values as never,
             cbSuccess: (response) => {
                 setStorageData('user', response.data as object)
+                // @ts-ignore
+                updateUser(dispatch, response.data as object)
                 navigation.goBack()
             }
         })
@@ -41,9 +44,9 @@ const EditProfile = () => {
                 <ThemedView lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground} style={styles.container}>
                     <Formik
                         initialValues={{
-                            name: user.name,
-                            address: user.address,
-                            mobile_no: user.mobile_no,
+                            name: state?.name,
+                            address: state?.address,
+                            mobile_no: state?.mobile_no,
                         }}
                         validationSchema={validationSchema}
                         onSubmit={onSubmit}
@@ -75,7 +78,7 @@ const EditProfile = () => {
                                         Email
                                     </ThemedText>
                                     <AuthInput
-                                        value={user.email}
+                                        value={state?.email}
                                         disabled={true}
                                     />
                                 </ThemedView>

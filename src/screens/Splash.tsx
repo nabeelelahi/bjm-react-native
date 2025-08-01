@@ -4,11 +4,15 @@ import { splashBg, splashLogo } from '../assets';
 import { WIDTH } from '../constants/Metrices';
 import { useNavigation } from '@react-navigation/native';
 import { getStorageData } from '../utils/storage';
+import { addUser, useUser } from '../context/userContext';
+
 const Splash = () => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const navigation = useNavigation();
+    const [, dispatch] = useUser();
     useEffect(() => {
         const user = getStorageData('user');
+        addUser(dispatch, user);
         Animated.timing(fadeAnim, {
             toValue: 1,
             duration: 1000,

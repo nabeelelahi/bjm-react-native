@@ -11,11 +11,14 @@ import { baseShadow } from "../../../assets/styles/shadow";
 import { baseRadius } from "../../../assets/styles/radius";
 import { DocGuideDto } from "../../../@types/DocGuide";
 import { formatedDateString, timeFromDateString } from "../../../utils/date";
+import { useNavigation } from "@react-navigation/native";
 
 export const DocumentCard = ({ item }: { item: DocGuideDto }) => {
     const colorScheme = useColorScheme()
+    const navigation = useNavigation()
     return (
         <TouchableOpacity
+            onPress={() => navigation.navigate(...['PdfView', item ] as never)}
             style={[styles.card, { backgroundColor: Colors[colorScheme ?? 'light'].background }, baseShadow, baseRadius]}
         >
             <ThemedView lightColor={Colors.light.primary} darkColor={Colors.dark.primary} style={styles.cardHeader}>

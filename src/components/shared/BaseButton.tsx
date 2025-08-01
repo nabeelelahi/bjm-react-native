@@ -12,13 +12,22 @@ const BaseButton: React.FC<BaseButtonProps> = ({
     onPress,
     backgroundColor = "primary",
     textColor = "background",
+    disabled = false
 }) => {
     const colorScheme = useColorScheme()
     return (
         <TouchableOpacity
-            style={[styles.button, { backgroundColor: Colors[colorScheme ?? 'light'][backgroundColor] }, baseShadow]}
+            style={[
+                styles.button,
+                {
+                    backgroundColor: Colors[colorScheme ?? 'light'][backgroundColor],
+                    opacity: disabled ? .7 : 1
+                },
+                baseShadow
+            ]}
             onPress={onPress}
             activeOpacity={0.7}
+            disabled={disabled}
         >
             <Text style={[styles.text, { color: Colors[colorScheme ?? 'light'][textColor] }]}>{title}</Text>
         </TouchableOpacity>

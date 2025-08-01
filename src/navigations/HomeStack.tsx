@@ -18,16 +18,14 @@ import { useEffect, useState } from 'react';
 import { getStorageData } from '../utils/storage';
 import { UserDto } from '../@types/User';
 import ArticlesDetailScreen from '../screens/ArticleDetails';
+import PdfView from '../screens/PdfView';
+import { useUser } from '../context/userContext';
 
 const Stack = createStackNavigator();
 
 export default function HomeStack() {
     const colorScheme = useColorScheme();
-    const [user, setUser] = useState<UserDto | undefined>();
-
-    useEffect(() => {
-        setUser(getStorageData('user'))
-    }, [])
+    const [user] = useUser()
     return (
         <>
             <Stack.Navigator initialRouteName='HomeScreen'>
@@ -70,7 +68,7 @@ export default function HomeStack() {
                         headerTitleAlign: 'center',
                         headerTitle: 'Achievements',
                         headerLeft: () => <BackButton />,
-                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22, fontFamily: 'Poppins-Semibold' },
+                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22, },
                         headerStyle: {
                             backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
                             height: 75
@@ -124,6 +122,19 @@ export default function HomeStack() {
                     component={AskQuestion}
                     options={{
                         headerTitle: 'Ask a Question',
+                        headerTitleAlign: 'center',
+                        headerLeft: () => <BackButton />,
+                        headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
+                        headerStyle: {
+                            backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
+                            height: 75
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="PdfView"
+                    component={PdfView}
+                    options={{
                         headerTitleAlign: 'center',
                         headerLeft: () => <BackButton />,
                         headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },

@@ -13,6 +13,7 @@ export type BaseButtonProps = {
   onPress?: () => void;
   backgroundColor?: 'primary' | 'text' | 'background' | 'tint';
   textColor?: 'primary' | 'text' | 'background' | 'tint';
+  disabled?: boolean
 };
 
 export type ArticleCardProps = {

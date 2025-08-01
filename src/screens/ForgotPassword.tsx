@@ -1,7 +1,7 @@
 import React from 'react'
 import { BaseContainer } from '@/src/components/shared/BaseContainer'
 import { ThemedText } from '@/src/components/shared/ThemedText'
-import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { ActivityIndicator, Image, ImageBackground, StyleSheet, Text } from 'react-native'
 import { cross, loginBackground } from '@/src/assets'
 import AuthInput from '../components/form/AuthInput'
 import BaseButton from '../components/shared/BaseButton'
@@ -13,49 +13,37 @@ import { useNavigation } from '@react-navigation/native'
 
 const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().min(6, 'Too short').required('Password is required'),
 });
 
 
-const Login = () => {
-    const { login, loading } = useAuth();
-    const navigation = useNavigation();
+const ForgotPassword = ({ route }: any) => {
+    const { forgotPassword, loading } = useAuth();
     return (
         <BaseContainer>
             <ImageBackground style={styles.mainView} source={loginBackground}>
                 <Formik
-                    initialValues={{ email: '', password: '' }}
+                    initialValues={{ email: route.params.email }}
                     validationSchema={validationSchema}
-                    onSubmit={login}
+                    onSubmit={forgotPassword}
                 >
                     {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                         <>
-                            <Image style={styles.logo} source={cross} />
-                            <ThemedText style={styles.title} type='title'>User Login</ThemedText>
+
+                            <ThemedText style={styles.title} type='title'>Recover Password</ThemedText>
                             <AuthInput
                                 onBlur={handleBlur('email')}
                                 onChangeText={handleChange('email')}
-                                placeholder='Email or Username'
+                                placeholder='Email'
                                 value={values.email}
                             />
                             {touched.email && errors.email && <Text style={{ color: 'red' }}>{errors.email}</Text>}
-                            <AuthInput
-                                onBlur={handleBlur('password')}
-                                onChangeText={handleChange('password')}
-                                placeholder='Password'
-                                value={values.password}
-                            />
-                            {touched.password && errors.password && <Text style={{ color: 'red' }}>{errors.password}</Text>}
-                            <TouchableOpacity style={styles.forgotLink} onPress={() => navigation.navigate(...['ForgotPassword', { email: values.email }] as never)}>
-                                <ThemedText type='defaultSemiBold'>Forgot Password?</ThemedText>
-                            </TouchableOpacity>
                             {
                                 loading ?
                                     <ActivityIndicator style={{ marginTop: 25 }} size={'large'} />
                                     :
-                                    <BaseButton onPress={handleSubmit} title='Login' />
+                                    <BaseButton onPress={handleSubmit} title='Submit' />
                             }
-                            <ThemedText style={styles.bottomText} >This app is only for Registered users</ThemedText>
+                            <ThemedText style={styles.bottomText} >We will send a recovery code to your email.</ThemedText>
                         </>
                     )}
                 </Formik>
@@ -64,7 +52,7 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ForgotPassword
 
 const styles = StyleSheet.create({
     logo: {

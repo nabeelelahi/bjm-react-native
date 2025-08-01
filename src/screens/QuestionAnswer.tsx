@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, FlatList, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView } from 'react-native';
+import { View, TextInput, FlatList, StyleSheet, TouchableOpacity, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import QuestionCard from '../components/partial/Community/QuestionCard';
 import { BaseContainer } from '../components/shared/BaseContainer';
 import { ThemedView } from '../components/shared/ThemedView';
@@ -37,12 +37,19 @@ export default function QuestionForum({ route }: any) {
                 community: route.params.community,
                 parent: route.params._id,
             },
-            cbSuccess: (response) => setData(p => [response.data, ...p]),
+            cbSuccess: (response) => {
+                setData(p => [response.data, ...p])
+                setNewAnswer('')
+            },
         })
     };
 
     return (
-        <KeyboardAvoidingView style={{flex: 1}}>
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 120 : 0}
+        >
             <BaseContainer>
                 <ThemedView style={styles.container} darkColor={Colors.dark.tintedBackground} lightColor={Colors.light.tintedBackground}>
 
@@ -76,7 +83,7 @@ export default function QuestionForum({ route }: any) {
                         </TouchableOpacity>
                     </View>
                 </ThemedView>
-            </BaseContainer>
+            </BaseContainer >
         </KeyboardAvoidingView>
     );
 }

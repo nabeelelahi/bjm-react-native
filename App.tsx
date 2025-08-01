@@ -14,6 +14,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import BaseStack from './src/navigations/BaseStack';
 import { navigationRef } from './src/navigations/NavigationRef';
 import { ToastProvider } from 'react-native-toast-notifications'
+import { UserProvider } from './src/context/userContext';
 
 function App(): React.JSX.Element {
   useEffect(() => {
@@ -21,11 +22,13 @@ function App(): React.JSX.Element {
   }, []);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ToastProvider>
-      <NavigationContainer ref={navigationRef}>
-        <BaseStack />
-      </NavigationContainer>
-      </ToastProvider>
+      <UserProvider>
+        <ToastProvider>
+          <NavigationContainer ref={navigationRef}>
+            <BaseStack />
+          </NavigationContainer>
+        </ToastProvider>
+      </UserProvider>
     </SafeAreaView>
   );
 }

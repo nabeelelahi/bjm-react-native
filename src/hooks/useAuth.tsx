@@ -4,16 +4,18 @@ import { ResponseError } from '../@types/Api';
 import { setStorageData } from '../utils/storage';
 import { useToast } from "react-native-toast-notifications";
 import { useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
+import { addUser, useUser } from '../context/userContext';
 export const useAuth = () => {
     const navigation = useNavigation();
     const [loading, setLoading] = useState<boolean>(false);
+    const [, dispatch] = useUser();
     const toast = useToast();
+
     const handleFailure = (response: ResponseError) => {
         setLoading(false);
         if (!response) { return; }
         response.data.message.forEach((message: string) => {
-            // Alert.alert(message)
+            console.log('failurte')
             toast.show(message, {
                 type: 'danger'
             });
@@ -29,6 +31,8 @@ export const useAuth = () => {
                 setLoading(false);
                 // @ts-ignore
                 setStorageData('user', repsonse.data);
+                // @ts-ignore
+                addUser(dispatch, repsonse.data)
                 setStorageData('access-token', { 'access-token': headers['access-token'] });
                 navigation.navigate('Tabs' as never);
                 navigation.reset({
@@ -41,8 +45,59 @@ export const useAuth = () => {
             .call();
     };
 
+    const forgotPassword = (values: { email: string; }) => {
+        setLoading(true);
+        request('user/forgot-password', 'POST')
+            .setAuth(false)
+            .setBody({ identifier: values.email, mode: 'email' }, 'json')
+            .onSuccess(() => {
+                setLoading(false);
+                navigation.navigate(...['OTP', { identifier: values.email }] as never);
+            })
+            // @ts-expect-error @ts-ignore
+            .onFailure(handleFailure)
+            .call();
+    };
+
+    const verifyCode = (values: { identifier: string; code: string; }) => {
+        setLoading(true);
+        request('user/verify-code', 'POST')
+            .setAuth(false)
+            .setBody({ identifier: values.identifier, mode: 'email', code: values.code }, 'json')
+            .onSuccess((response) => {
+                setLoading(false);
+                // @ts-ignore
+                const reset_password_token = response.data.reset_password_token;
+                navigation.navigate(...['ResetPassowrd', { reset_password_token }] as never);
+            })
+            // @ts-expect-error @ts-ignore
+            .onFailure(handleFailure)
+            .call();
+    };
+
+    const resetPassword = (values: { reset_password_token: string; password: string; }) => {
+        setLoading(true);
+        request('user/reset-password', 'POST')
+            .setAuth(false)
+            .setBody(values, 'json')
+            .onSuccess(() => {
+                setLoading(false);
+                // @ts-ignore
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: 'Login' as never }],
+                });
+            })
+            // @ts-expect-error @ts-ignore
+            .onFailure(handleFailure)
+            .call();
+    };
+
     return {
         loading,
         login,
+        forgotPassword,
+        verifyCode,
+        resetPassword
     };
 };
