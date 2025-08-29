@@ -15,12 +15,12 @@ import { useNavigation }
 import { useColorScheme } from '../hooks/useColorScheme';
 import Carousel from 'react-native-reanimated-carousel';
 import { WIDTH } from '../constants/Metrices';
-import { homeParallax2, homeParallax3 } from '../assets';
+import { banner1, banner2 } from '../assets';
 
 const data = [
-  homeParallax, 
+  banner1, 
   // homeParallax2, 
-  homeParallax3
+  banner2
 ]
 
 const HomeScreen = () => {
