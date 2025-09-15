@@ -27,7 +27,7 @@ export const DocumentCard = ({ item }: { item: DocGuideDto }) => {
                     darkColor={Colors.dark.background}
                     type="defaultSemiBold"
                 >{item.sub_title}</ThemedText>
-                <MaterialIcons name="more-horiz" size={24} color="white" />
+                {/* <MaterialIcons name="more-horiz" size={24} color="white" /> */}
             </ThemedView>
             <ThemedView
                 style={{ ...styles.cardBody, borderBottomColor: Colors[colorScheme ?? 'light'].text }}
@@ -62,7 +62,7 @@ export const DocumentCard = ({ item }: { item: DocGuideDto }) => {
 const styles = StyleSheet.create({
     card: {
         marginVertical: 15,
-        height: 152,
+        minHeight: 152,
     },
     cardBody: {
         margin: 10,

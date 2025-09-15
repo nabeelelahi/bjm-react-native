@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     cardImage: {
         width: "100%",
-        height: 140,
+        minHeight: 140,
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
         left: 15,
         fontSize: 18,
         fontWeight: "bold",
+        width: "80%",
         color: "#fff",
     },
     ratingContainer: {

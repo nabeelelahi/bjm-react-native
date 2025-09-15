@@ -78,19 +78,19 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.bjm"
+    namespace "com.bjm.app"
     defaultConfig {
-        applicationId "com.bjm"
+        applicationId "com.bjm.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "1.2"
+        versionCode 1
+        versionName "1.0"
     }
     signingConfigs {
         release {
-        storeFile file('bjm.keystore')
+        storeFile file('bjm-release-key.jks')
         storePassword 'Admin@123'
-        keyAlias 'bjmkey'
+        keyAlias 'bjm-key'
         keyPassword 'Admin@123'
         }
         debug {

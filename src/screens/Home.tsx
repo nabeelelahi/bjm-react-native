@@ -1,8 +1,7 @@
 import React from 'react'
 import { BaseContainer } from '@/src/components/shared/BaseContainer'
-import SearchBar from '@/src/components/partial/Home/SearchBar'
 import ParallaxScrollView from "@/src/components/shared/ParallaxScrollView";
-import { achievementGif, achievementsCard, articles, articlesWhite, bible, bibleWhite, community, communityWhite, docGuide, docGuideWhite, homeParallax, passportCard, passportGif } from "@/src/assets";
+import { achievementGif, achievementsCard, articles, articlesWhite, community, communityWhite, docGuide, docGuideWhite, homeParallax, passportCard, passportGif } from "@/src/assets";
 import { Colors } from "@/src/constants/Colors";
 import { Image, StyleSheet } from 'react-native';
 import { ThemedView } from '../components/shared/ThemedView';
@@ -15,12 +14,12 @@ import { useNavigation }
 import { useColorScheme } from '../hooks/useColorScheme';
 import Carousel from 'react-native-reanimated-carousel';
 import { WIDTH } from '../constants/Metrices';
-import { banner1, banner2 } from '../assets';
+import { banner1, banner2,banner3 } from '../assets';
 
 const data = [
-  banner1, 
-  // homeParallax2, 
-  banner2
+  banner1,  
+  banner2,
+  banner3,
 ]
 
 const HomeScreen = () => {

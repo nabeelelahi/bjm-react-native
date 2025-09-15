@@ -26,7 +26,12 @@ const Achievements = () => {
                 headerImage={
                     <ImageBackground style={styles.banner} source={achievementBanner} >
                         <ThemedText style={styles.title} type='subtitle' darkColor={'#fff'} lightColor={'#fff'}>
-                            {data.total - data.completed} Left to a New Job
+                            { 
+                            data && (data.total - data.completed) > 0 ?
+                                `${data.total - data.completed} Left to a New Job`
+                                :
+                                "Congratulations!"
+                            }
                         </ThemedText>
                     </ImageBackground>
                 }
@@ -46,7 +51,13 @@ const Achievements = () => {
                             darkColor={Colors.dark.tintedBackground}
                         >
                             <ThemedText style={styles.title} type='subtitle' darkColor={'#fff'} lightColor={'#000'}>
-                                You have Completed total {data?.completed} Steps out of {data.total} so far!
+                                {
+                                    data && (data.total - data.completed) > 0 ?
+                                    `You have Completed total ${data?.completed} Steps out of ${data.total} so far!`
+                                    :
+                                    'You have completed all the jobs!'
+                                }
+                                
                             </ThemedText>
                             <ThemedView style={{ marginBottom: 20 }} lightColor={Colors.light.tintedBackground} darkColor={Colors.dark.tintedBackground}>
                                 <Progress.Circle

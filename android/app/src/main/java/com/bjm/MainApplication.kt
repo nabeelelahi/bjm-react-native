@@ -1,4 +1,4 @@
-package com.bjm
+package com.bjm.app
 
 import android.app.Application
 import com.facebook.react.PackageList

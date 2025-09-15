@@ -1,4 +1,4 @@
-package com.bjm
+package com.bjm.app
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

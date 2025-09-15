@@ -34,4 +34,5 @@ export const achievementBanner = require('./images/achievement-banner.jpg');
 export const splashBg = require('./images/splash-bg.png');
 export const splashLogo = require('./images/splash-logo.png');
 export const banner1 = require('./images/banner-1.jpg');
-export const banner2 = require('./images/banner-2.jpg');
+export const banner2 = require('./images/banner-2.jpeg');
+export const banner3 = require('./images/banner-3.jpg');
