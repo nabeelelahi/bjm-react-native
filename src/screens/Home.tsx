@@ -14,7 +14,10 @@ import { useNavigation }
 import { useColorScheme } from '../hooks/useColorScheme';
 import Carousel from 'react-native-reanimated-carousel';
 import { WIDTH } from '../constants/Metrices';
-import { banner1, banner2,banner3 } from '../assets';
+import { 
+  banner1, 
+  banner2,
+  banner3 } from '../assets';
 
 const data = [
   banner1,  
