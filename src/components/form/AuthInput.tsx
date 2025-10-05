@@ -18,11 +18,13 @@ const AuthInput = (props: AuthInputProps) => {
                 onChangeText={props.onChangeText ? props.onChangeText : () => { }}
                 onBlur={props.onBlur ? props.onBlur : () => { }}
                 value={props.value ?? ''}
+                multiline={props.multiline}
+                numberOfLines={props.numberOfLines}
                 style={[
                     // eslint-disable-next-line react-native/no-inline-styles
                     {
                         backgroundColor: Colors[colorScheme ?? 'light'].background,
-                        height: 72,
+                        minHeight: 72,
                         width: WIDTH(90),
                         paddingHorizontal: WIDTH(6),
                         fontSize: 16,

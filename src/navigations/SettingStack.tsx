@@ -11,6 +11,7 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import TermsAndConditions from '../screens/TermsAndConditions';
 import About from '../screens/About';
 import WebViewScreen from '../screens/WebView';
+import ReportBug from '../screens/ReportBug';
 
 const Stack = createStackNavigator();
 
@@ -60,6 +61,20 @@ export default function SettingStack() {
                     options={{
                         headerTitleAlign: 'center',
                         headerTitle: "Personal Info.",
+                        headerTitleStyle: { color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
+                        headerLeft: () => <BackButton />,
+                        headerStyle: {
+                            backgroundColor: Colors[colorScheme ?? 'light'].tintedBackground,
+                            height: 75
+                        }
+                    }}
+                />
+                <Stack.Screen
+                    name="ReportBug"
+                    component={ReportBug}
+                    options={{
+                        headerTitleAlign: 'center',
+                        headerTitle: "Report a bug",
                         headerTitleStyle: { color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerLeft: () => <BackButton />,
                         headerStyle: {

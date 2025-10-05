@@ -46,7 +46,8 @@ const Settings = () => {
           ...styles.childBody,
           borderBottomWidth: 0,
         }}>
-          <ThemedText style={styles.subTitle}>Account Settings</ThemedText>
+          <ThemedText style={styles.subTitle}>Application Settings</ThemedText>
+          <Link onPress={() => navigation.navigate('ReportBug' as never)} title="Report a Bug" />
           <Link onPress={() => navigation.navigate(...['WebView', { url: 'https://www.betweenjobsministry.org/about-3' }] as never)} title="About us & FAQ's" />
           <Link onPress={() => navigation.navigate(...['WebView', { url: 'https://www.betweenjobsministry.org/privacypolicy' }] as never)} title="Privacy Policy" />
           <Link onPress={() => navigation.navigate(...['WebView', { url: 'https://www.betweenjobsministry.org/terms-conditions' }] as never)} title="Terms and Conditions" />

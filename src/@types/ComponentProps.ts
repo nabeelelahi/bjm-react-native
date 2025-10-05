@@ -3,6 +3,8 @@ export type AuthInputProps = {
   type?: 'email' | 'password' | 'text';
   value?: string;
   disabled?: boolean
+  multiline?: boolean
+  numberOfLines?: number
   onChange?: (value: string) => void;
   onChangeText?: (text: string) => void;
   onChangeBlur?: (text: string) => void;
