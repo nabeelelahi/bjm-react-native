@@ -46,7 +46,7 @@ const ReportBug = () => {
                                         lightColor={Colors.light.text}
                                         darkColor={Colors.dark.text}
                                     >
-                                        title
+                                        Title
                                     </ThemedText>
                                     <AuthInput
                                         placeholder={''}
