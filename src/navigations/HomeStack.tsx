@@ -80,7 +80,7 @@ export default function HomeStack() {
                     component={Articles}
                     options={{
                         headerTitleAlign: 'center',
-                        headerTitle: 'Articles',
+                        headerTitle: 'Announcements',
                         headerLeft: () => <BackButton />,
                         headerTitleStyle: { fontFamily: 'Poppins-Semibold', color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerStyle: {
@@ -162,7 +162,7 @@ export default function HomeStack() {
                     component={DocGuide}
                     options={{
                         headerTitleAlign: 'center',
-                        headerTitle: 'Doc/Guide',
+                        headerTitle: 'BJM Packets',
                         headerLeft: () => <BackButton />,
                         headerTitleStyle: { color: Colors[colorScheme ?? 'light'].tintedText, fontSize: 22 },
                         headerStyle: {

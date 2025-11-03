@@ -14,13 +14,14 @@ import { useNavigation }
 import { useColorScheme } from '../hooks/useColorScheme';
 import Carousel from 'react-native-reanimated-carousel';
 import { WIDTH } from '../constants/Metrices';
-import { 
-  banner1, 
+import {
+  banner1,
   banner2,
-  banner3 } from '../assets';
+  banner3
+} from '../assets';
 
 const data = [
-  banner1,  
+  banner1,
   banner2,
   banner3,
 ]
@@ -64,7 +65,7 @@ const HomeScreen = () => {
           /> */}
           <BottomCard
             onPress={() => navigation.navigate('Articles' as never)}
-            title='Articles'
+            title='Announcements'
             isFull
             image={<Image style={{ height: 71, width: 53 }} source={colorScheme === 'light' ? articles : articlesWhite} />}
           />
@@ -72,7 +73,7 @@ const HomeScreen = () => {
         <ThemedView style={styles.bottomCardContainer}>
           <BottomCard
             onPress={() => navigation.navigate('DocGuide' as never)}
-            title='Doc/Guide'
+            title='BJM Packets'
             image={<Image style={{ height: 70, width: 45 }} source={colorScheme === 'light' ? docGuide : docGuideWhite} />}
           />
           <BottomCard

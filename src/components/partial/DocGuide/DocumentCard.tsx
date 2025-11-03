@@ -5,7 +5,7 @@ import { Colors } from "@/src/constants/Colors";
 import { ThemedView } from "../../shared/ThemedView";
 import { ThemedText } from "../../shared/ThemedText";
 import { articles, articlesWhite } from "@/src/assets";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+// import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { baseShadow } from "../../../assets/styles/shadow";
 import { baseRadius } from "../../../assets/styles/radius";
@@ -26,7 +26,7 @@ export const DocumentCard = ({ item }: { item: DocGuideDto }) => {
                     lightColor={Colors.light.background}
                     darkColor={Colors.dark.background}
                     type="defaultSemiBold"
-                >{item.sub_title}</ThemedText>
+                >{item.serial_number > 99 ? item.serial_number : item.serial_number > 9 ? `0${item.serial_number}` : `00${item.serial_number}` } - {item.sub_title}</ThemedText>
                 {/* <MaterialIcons name="more-horiz" size={24} color="white" /> */}
             </ThemedView>
             <ThemedView
